@@ -144,7 +144,7 @@ fn main() {
         editor
             .buffer_mut()
             .lines
-            .push(TextLayoutLine::new(line_text, attrs_list));
+            .push(TextLayoutLine::new(line_text, attrs_list, 0));
     }
 
     let mut attrs = AttrsList::new(Attrs::new());

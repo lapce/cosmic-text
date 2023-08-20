@@ -553,6 +553,7 @@ impl TextLayout {
     pub fn set_text(&mut self, text: &str, attrs: AttrsList) {
         self.lines.clear();
         let mut attrs = attrs;
+        let mut start_index = 0;
         for line in text.split_terminator('\n') {
             let l = line.len();
             let (line, had_r) = if l > 0 && line.as_bytes()[l - 1] == b'\r' {
@@ -561,13 +562,19 @@ impl TextLayout {
                 (line, false)
             };
             let new_attrs = attrs.split_off(line.len() + 1 + if had_r { 1 } else { 0 });
-            self.lines
-                .push(TextLayoutLine::new(line.to_string(), attrs.clone()));
+            self.lines.push(TextLayoutLine::new(
+                line.to_string(),
+                attrs.clone(),
+                start_index,
+            ));
             attrs = new_attrs;
+
+            start_index += l + 1 + if had_r { 1 } else { 0 };
         }
         // Make sure there is always one line
         if self.lines.is_empty() {
-            self.lines.push(TextLayoutLine::new(String::new(), attrs));
+            self.lines
+                .push(TextLayoutLine::new(String::new(), attrs, 0));
         }
 
         self.scroll = 0;

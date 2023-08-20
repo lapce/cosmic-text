@@ -11,6 +11,8 @@ pub struct TextLayoutLine {
     attrs_list: AttrsList,
     wrap: Wrap,
     align: Option<Align>,
+    /// The index into the original text where this line starts
+    start_index: usize,
     shape_opt: Option<ShapeLine>,
     layout_opt: Option<Vec<LayoutLine>>,
 }
@@ -19,12 +21,13 @@ impl TextLayoutLine {
     /// Create a new line with the given text and attributes list
     /// Cached shaping and layout can be done using the [`Self::shape`] and
     /// [`Self::layout`] functions
-    pub fn new<T: Into<String>>(text: T, attrs_list: AttrsList) -> Self {
+    pub fn new<T: Into<String>>(text: T, attrs_list: AttrsList, start_index: usize) -> Self {
         Self {
             text: text.into(),
             attrs_list,
             wrap: Wrap::Word,
             align: None,
+            start_index,
             shape_opt: None,
             layout_opt: None,
         }
@@ -117,6 +120,11 @@ impl TextLayoutLine {
         }
     }
 
+    /// The start index in the original overarching line.
+    pub fn start_index(&self) -> usize {
+        self.start_index
+    }
+
     /// Append line at end of this line
     ///
     /// The wrap setting of the appended line will be lost
@@ -145,7 +153,7 @@ impl TextLayoutLine {
         let attrs_list = self.attrs_list.split_off(index);
         self.reset();
 
-        let mut new = Self::new(text, attrs_list);
+        let mut new = Self::new(text, attrs_list, self.start_index + index);
         new.wrap = self.wrap;
         new
     }
