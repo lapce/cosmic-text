@@ -7,9 +7,9 @@ license = "MIT OR Apache-2.0"
 publish = false
 
 [dependencies]
-cosmic-text = { path = "../../" }
+floem-cosmic-text = { path = "../../" }
 env_logger = "0.10"
 fontdb = "0.13"
 log = "0.4"
 orbclient = "0.3.35"
-peniko = { git = "https://github.com/linebender/peniko", rev = "cafdac9a211a0fb2fec5656bd663d1ac770bcc81" }
+floem-peniko = "0.1.0"

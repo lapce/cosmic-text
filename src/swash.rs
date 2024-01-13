@@ -4,7 +4,7 @@
 use alloc::collections::BTreeMap as Map;
 #[cfg(not(feature = "std"))]
 use alloc::vec::Vec;
-use peniko::Color;
+use floem_peniko::Color;
 #[cfg(feature = "std")]
 use std::collections::HashMap as Map;
 use swash::scale::{image::Content, ScaleContext};

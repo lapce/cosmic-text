@@ -3,7 +3,7 @@ use alloc::string::String;
 
 use crate::{AttrsList, Cursor, TextLayout};
 #[cfg(feature = "swash")]
-use peniko::Color;
+use floem_peniko::Color;
 
 pub use self::editor::*;
 mod editor;

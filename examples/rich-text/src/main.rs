@@ -1,11 +1,11 @@
 // SPDX-License-Identifier: MIT OR Apache-2.0
 
-use cosmic_text::{
+use floem_cosmic_text::{
     Action, Attrs, AttrsList, Edit, Editor, Family, FamilyOwned, Style, SwashCache, TextLayout,
     TextLayoutLine, Weight, FONT_SYSTEM,
 };
+use floem_peniko::Color;
 use orbclient::{EventOption, Renderer, Window, WindowFlag};
-use peniko::Color;
 use std::{
     process, thread,
     time::{Duration, Instant},

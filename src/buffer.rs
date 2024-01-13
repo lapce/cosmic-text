@@ -6,12 +6,12 @@ use alloc::{
     vec::Vec,
 };
 use core::{cmp, fmt};
-use peniko::kurbo::{Point, Size};
+use floem_peniko::kurbo::{Point, Size};
 use unicode_segmentation::UnicodeSegmentation;
 
 use crate::{Attrs, AttrsList, LayoutGlyph, LayoutLine, ShapeLine, TextLayoutLine, Wrap};
 #[cfg(feature = "swash")]
-use peniko::Color;
+use floem_peniko::Color;
 
 pub struct HitPoint {
     /// Text line the cursor is on

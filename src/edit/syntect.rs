@@ -1,6 +1,6 @@
 #[cfg(not(feature = "std"))]
 use alloc::{string::String, vec::Vec};
-use peniko::Color;
+use floem_peniko::Color;
 #[cfg(feature = "std")]
 use std::{fs, io, path::Path};
 use syntect::highlighting::{

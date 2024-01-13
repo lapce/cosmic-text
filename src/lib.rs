@@ -12,7 +12,7 @@
 //! point, you can use the `SwashCache` to rasterize glyphs into either images or pixels.
 //!
 //! ```
-//! use cosmic_text::{Attrs, Color, FontSystem, SwashCache, Buffer, Metrics};
+//! use floem_cosmic_text::{Attrs, Color, FontSystem, SwashCache, Buffer, Metrics};
 //!
 //! // A FontSystem provides access to detected system fonts, create one per application
 //! let mut font_system = FontSystem::new();

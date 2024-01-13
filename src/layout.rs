@@ -4,7 +4,7 @@ use core::fmt::Display;
 
 #[cfg(not(feature = "std"))]
 use alloc::vec::Vec;
-use peniko::Color;
+use floem_peniko::Color;
 
 use crate::CacheKey;
 
