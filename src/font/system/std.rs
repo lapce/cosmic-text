@@ -10,6 +10,17 @@ use crate::{Attrs, FamilyOwned, Font, FontAttrs};
 
 pub static FONT_SYSTEM: Lazy<FontSystem> = Lazy::new(FontSystem::new);
 
+#[allow(clippy::missing_errors_doc)]
+pub fn load_font_file<P: AsRef<std::path::Path>>(path: P) -> Result<(), std::io::Error> {
+    FONT_SYSTEM.db.write().load_font_file(path)
+}
+pub fn load_fonts_dir<P: AsRef<std::path::Path>>(path: P) {
+    FONT_SYSTEM.db.write().load_fonts_dir(path);
+}
+pub fn load_font_data(data: Vec<u8>) {
+    FONT_SYSTEM.db.write().load_font_data(data);
+}
+
 /// Access system fonts
 pub struct FontSystem {
     locale: String,
