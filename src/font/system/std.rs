@@ -93,6 +93,10 @@ impl FontSystem {
         &self.locale
     }
 
+    pub fn db(&self) -> &RwLock<fontdb::Database> {
+        &self.db
+    }
+
     pub fn get_font(&self, id: fontdb::ID) -> Option<Arc<Font>> {
         if let Some(f) = self.font_cache.read().get(&id) {
             return f.clone();
