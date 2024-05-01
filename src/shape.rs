@@ -6,7 +6,7 @@ use core::cmp::{max, min};
 use core::mem;
 use core::ops::Range;
 use once_cell::sync::Lazy;
-use floem_peniko::Color;
+use peniko::Color;
 use rustybuzz::{GlyphBuffer, GlyphInfo, GlyphPosition};
 use std::sync::Arc;
 use stretto::Cache;

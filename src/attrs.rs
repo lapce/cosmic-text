@@ -6,7 +6,7 @@ use alloc::{
     vec::Vec,
 };
 use core::ops::Range;
-use floem_peniko::Color;
+use peniko::Color;
 
 pub use fontdb::{Family, Stretch, Style, Weight};
 use rangemap::RangeMap;

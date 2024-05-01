@@ -10,7 +10,7 @@ use unicode_segmentation::UnicodeSegmentation;
 
 use crate::{Action, Affinity, AttrsList, Cursor, Edit, LayoutCursor, TextLayout, TextLayoutLine};
 #[cfg(feature = "swash")]
-use floem_peniko::Color;
+use peniko::Color;
 
 /// A wrapper of [`Buffer`] for easy editing
 pub struct Editor {
