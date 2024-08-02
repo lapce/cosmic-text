@@ -9,15 +9,29 @@ use once_cell::sync::Lazy;
 use peniko::Color;
 use rustybuzz::{GlyphBuffer, GlyphInfo, GlyphPosition};
 use std::sync::Arc;
-use stretto::Cache;
 use unicode_script::{Script, UnicodeScript};
 use unicode_segmentation::UnicodeSegmentation;
+
+#[cfg(target_arch = "wasm32")]
+use std::sync::RwLock;
+#[cfg(target_arch = "wasm32")]
+use std::collections::HashMap;
+
+#[cfg(not(target_arch = "wasm32"))]
+use stretto::Cache;
 
 use crate::fallback::FontFallbackIter;
 use crate::{Align, AttrsList, CacheKey, Font, LayoutGlyph, LayoutLine, Wrap, FONT_SYSTEM};
 
+#[cfg(not(target_arch = "wasm32"))]
 static SHAPED_RUNS: Lazy<Cache<(fontdb::ID, String), Arc<(Vec<GlyphInfo>, Vec<GlyphPosition>)>>> =
     Lazy::new(|| Cache::new(12960, 1e5 as i64).expect("can't create cache"));
+// At the time of this writing, stretto does not work on wasm.
+// Hence, we use a simple HashMap as a fallback here.
+#[cfg(target_arch = "wasm32")]
+static SHAPED_RUNS: Lazy<
+    RwLock<HashMap<(fontdb::ID, String), Arc<(Vec<GlyphInfo>, Vec<GlyphPosition>)>>>,
+> = Lazy::new(|| RwLock::new(HashMap::new()));
 
 fn shape_raw(font: &Font, run: &str, span_rtl: bool) -> GlyphBuffer {
     let mut buffer = rustybuzz::UnicodeBuffer::new();
@@ -41,8 +55,17 @@ pub(crate) fn shape(
     span_rtl: bool,
 ) -> Arc<(Vec<GlyphInfo>, Vec<GlyphPosition>)> {
     let key = (font.id(), run.to_string());
+    #[cfg(not(target_arch = "wasm32"))]
     if let Some(buffer) = SHAPED_RUNS.get(&key) {
         return buffer.value().clone();
+    }
+    #[cfg(target_arch = "wasm32")]
+    if let Some(buffer) = SHAPED_RUNS
+        .read()
+        .expect("Failed to acquire read access to shaped runs cache")
+        .get(&key)
+    {
+        return buffer.clone();
     }
 
     let glyph_buffer = shape_raw(font, run, span_rtl);
@@ -50,7 +73,13 @@ pub(crate) fn shape(
         glyph_buffer.glyph_infos().to_vec(),
         glyph_buffer.glyph_positions().to_vec(),
     ));
+    #[cfg(not(target_arch = "wasm32"))]
     SHAPED_RUNS.insert(key, data.clone(), 0);
+    #[cfg(target_arch = "wasm32")]
+    SHAPED_RUNS
+        .write()
+        .expect("Failed to acquire write access to shaped runs cache")
+        .insert(key, data.clone());
     data
 }
 

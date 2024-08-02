@@ -24,8 +24,11 @@ rangemap = "1.2.0"
 parking_lot = "0.12.1"
 once_cell = "1.17.1"
 ttf-parser = "0.20.0"
-stretto = "0.8.1"
 peniko = "0.1.0"
+
+# stretto is used for glyph caching on all platforms except wasm.
+[target.'cfg(not(target_arch = "wasm32"))'.dependencies]
+stretto = "0.8.1"
 
 [dependencies.unicode-bidi]
 version = "0.3.8"

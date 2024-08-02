@@ -31,5 +31,8 @@ build --no-default-features --features vi
 echo Build with all features
 build --all-features
 
+echo Build on WebAssembly
+cargo build --release --target wasm32-unknown-unknown
+
 echo Run tests
 cargo test
